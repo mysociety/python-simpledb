@@ -1,6 +1,6 @@
-import httplib2
 import urlparse
 import urllib
+import urllib2
 import time
 import hmac
 import base64
@@ -221,7 +221,6 @@ class SimpleDB(object):
         else:
             self.scheme = 'http'
         self.db = db
-        self.http = httplib2.Http()
         self.encoder = encoder
 
     def _make_request(self, request):
@@ -229,7 +228,9 @@ class SimpleDB(object):
                    'host': self.db}
         request.set_parameter('Version', self.service_version)
         request.sign_request(self.signature_method(), self.aws_key, self.aws_secret)
-        response, content = self.http.request(request.url, request.method, headers=headers, body=request.to_postdata())
+        req = urllib2.Request(request.url, headers)
+        response = urllib2.urlopen(req, request.to_postdata(), 10)
+        content = response.read()
         e = ET.fromstring(content)
 
         error = e.find('Errors/Error')
