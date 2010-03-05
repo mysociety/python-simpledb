@@ -921,8 +921,7 @@ class Domain(object):
         return self._get_query().item_names()
 
     def get(self, name):
-        if name not in self.items:
-            self.items[name] = Item.load(self.simpledb, self, name)
+        self.items[name] = Item.load(self.simpledb, self, name)
         item = self.items[name]
         if not item:
             raise ItemDoesNotExist(name)
