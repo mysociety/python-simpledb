@@ -233,7 +233,7 @@ class SimpleDB(object):
         e = ET.fromstring(content)
 
         error = e.find('Errors/Error')
-        if error:
+        if error is not None:
             raise SimpleDBError(error.find('Message').text)
 
         meta = e.find('{%s}ResponseMetadata' % self.ns)
@@ -297,7 +297,7 @@ class SimpleDB(object):
 
             e = ET.fromstring(response.content)
             domain_result = e.find('{%s}ListDomainsResult' % self.ns)
-            if domain_result:
+            if domain_result is not None:
                 domain_names = domain_result.findall('{%s}DomainName' % self.ns)
                 for domain in domain_names:
                     yield Domain(domain.text, self)
@@ -510,7 +510,7 @@ class SimpleDB(object):
         e = ET.fromstring(response.content)
         attributes = dict.fromkeys(attributes or [])
         attr_node = e.find('{%s}GetAttributesResult' % self.ns)
-        if attr_node:
+        if attr_node is not None:
             attributes.update(self._parse_attributes(domain, attr_node))
         return attributes
 
