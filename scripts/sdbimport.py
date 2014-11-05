@@ -1,4 +1,8 @@
-import simplejson
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 
 def sdbimport(sdb, domain, items):
 
@@ -27,7 +31,7 @@ if __name__ == '__main__':
 
 
     print "Loading..."
-    items = simplejson.load(open(sys.argv[2]))
+    items = json.load(open(sys.argv[2]))
 
     print "Importing..."
     sdb = simpledb.SimpleDB(settings.AWS_KEY, settings.AWS_SECRET)

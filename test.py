@@ -21,7 +21,10 @@ this problem yet. Patches welcome.
 
 import unittest
 import simpledb
-import simplejson
+try:
+    import simplejson as json
+except ImportError:
+    import json
 import settings
 from collections import defaultdict
 
@@ -179,7 +182,7 @@ class TransactionTestCase(unittest.TestCase):
     sdb = sdb
 
     def _pre_setup(self):
-        self.data = simplejson.load(open('fixture.json'))
+        self.data = json.load(open('fixture.json'))
         # Start a transaction
         self.sdb.start_transaction()
 
@@ -296,7 +299,7 @@ if __name__ == '__main__':
 
     print "Loading fixtures..."
 
-    domains = simplejson.load(open('fixture.json'))
+    domains = json.load(open('fixture.json'))
     for domain, items in domains.iteritems():
         load_data(sdb, domain, items)
     sdb.data = domains

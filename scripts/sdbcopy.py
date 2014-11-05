@@ -1,10 +1,14 @@
-import simplejson
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 from sdbdump import sdbdump
 from sdbimport import sdbimport
 
 def sdbcopy(sdb, from_domain, to_domain):
-    json = sdbdump(sdb, from_domain)
-    sdbimport(sdb, to_domain, simplejson.loads(json))
+    json_data = sdbdump(sdb, from_domain)
+    sdbimport(sdb, to_domain, json.loads(json_data))
 
 if __name__ == '__main__':
     import os

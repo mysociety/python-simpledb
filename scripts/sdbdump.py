@@ -1,8 +1,12 @@
-import simplejson
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
 
 def sdbdump(sdb, domain):
     items = dict((item.name, dict(item)) for item in sdb[domain])
-    return simplejson.dumps(items)
+    return json.dumps(items)
 
 
 if __name__ == '__main__':
